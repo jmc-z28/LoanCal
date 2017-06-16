@@ -1,0 +1,22 @@
+﻿{
+  "version": "1.0",
+  "response": {
+    "outputSpeech": {
+      "text": "What application would you like to know about",
+      "type": "PlainText"
+    },
+    "shouldEndSession": false,
+    "reprompt": {
+      "outputSpeech": {
+        "text": "That application again",
+        "type": "PlainText"
+      }
+    },
+    "card": {
+      "content": "SessionSpeechlet - What application would you like to know about",
+      "type": "Simple",
+      "title": "SessionSpeechlet - Welcome"
+    }
+  },
+  "sessionAttributes": {}
+}

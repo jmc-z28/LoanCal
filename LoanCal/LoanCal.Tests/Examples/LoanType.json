@@ -1,0 +1,33 @@
+﻿{
+  "session": {
+    "sessionId": "SessionId.74ade2f1-bf73-4c1b-bf80-e9d234fcdc34",
+    "application": {
+      "applicationId": "amzn1.ask.skill.3100b1c1-31b8-465c-a333-6a8f2c088933"
+    },
+    "attributes": {},
+    "user": {
+      "userId": "amzn1.ask.account.AHB3I3UNVVAFHQR3D7ZOXWJQHIBPKUBOX7E67EE6X475XIZQPPBRQBSIMYUM5DPP7KC2A6RBSPG34QTAMOFI3E5Y6XQWOWA24OEA6YA6TMVYU7FQPUXUCKPVQZFPRO6DS7L2GLPKSSJ6GLWNTOLMTGHHZRTCPSO6M5ZNZ7AZUEBKASKEBQPZUFORZ7VWGXCDIFPGFI4N6H3J77Y"
+    },
+    "new": true
+  },
+  "request": {
+    "type": "IntentRequest",
+    "requestId": "EdwRequestId.13c2fee2-be42-4f12-8c9b-eaacc486e3a6",
+    "locale": "en-US",
+    "timestamp": "2017-06-11T03:06:19Z",
+    "intent": {
+      "name": "LoanIntent",
+      "slots": {
+        "LoanAmount": {
+          "name": "LoanAmount",
+          "value": "2000"
+        },
+        "LoanType": {
+          "name": "LoanType",
+          "value": "house"
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}
