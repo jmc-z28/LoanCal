@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Amazon.Lambda.Core;
 
 namespace LoanCal
 {
@@ -17,33 +18,36 @@ namespace LoanCal
         private const decimal defaultTermsCar = 5M;
 
 
-        public LoanCalculator(int v)
+        public LoanCalculator(decimal v)
         {
             PurchasePrice = (decimal)v;
-            if (v > HouseMin)
-            {
-                LoanType = LoanTypes.Home;
-                LoanTermYears = defaultTermsHouse;
-            }
-            else if (v <= HouseMin && v > CarMin)
-                LoanType = LoanTypes.Car;
-            else
-                LoanType = LoanTypes.Small;
+        }
+
+        public LoanCalculator(decimal v, ILambdaLogger log) : this(v)
+        {
+            this.log = log;
         }
 
         public enum LoanTypes
         {
-            Home,Car,Small
+            None,Home,Car,Small
         }
         public LoanTypes LoanType;
+        private ILambdaLogger log;
+
         public decimal PurchasePrice { get; set; }
         public decimal DownPayment { get; set; } = 0;
         public decimal LoanAmount { get { return PurchasePrice - DownPayment; } }
         public decimal InterestRate { get; set; } = defaultInterest;
-        public decimal LoanTermYears { get; set; } = defaultTermsCar;
+        public decimal LoanTermYears { get; set; }
 
         public decimal CalculatePayment()
         {
+
+
+            SetLoanType();
+            SetLoanTerms();
+            SetInterestRate();
 
             decimal payment = 0;
 
@@ -59,5 +63,47 @@ namespace LoanCal
             }
             return Math.Round(payment, 2);
         }
+
+        private void SetInterestRate()
+        {
+            if (InterestRate == 0)
+                InterestRate = defaultInterest;
+        }
+
+        private void SetLoanTerms()
+        {
+            logForCalculator($"SetLoanTerms() Currently LoanType={LoanType}, LoanTermYears={LoanTermYears}");
+            if (this.LoanTermYears == 0)
+            {
+                if (LoanType == LoanTypes.Home)
+                    LoanTermYears = defaultTermsHouse;
+                else
+                    LoanTermYears = defaultTermsCar;
+            }
+            logForCalculator($"SetLoanTerms() Now LoanTermYears={LoanTermYears}");
+        }
+
+        public void SetLoanType()
+        {
+            logForCalculator($"SetLoanType() Currently LoanType={LoanType}");
+            if (this.LoanType == LoanTypes.None)
+            {
+                if (PurchasePrice > HouseMin)
+                    LoanType = LoanTypes.Home;
+                else 
+                    LoanType = LoanTypes.Car;
+
+            }
+            logForCalculator($"SetLoanType() Now LoanType={LoanType}");
+        }
+
+        private void logForCalculator(string message)
+        {
+            if (log == null)
+                Console.WriteLine(message);
+            else
+                log.LogLine(message);
+        }
+
     }
 }

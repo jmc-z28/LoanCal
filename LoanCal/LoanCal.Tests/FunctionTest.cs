@@ -18,7 +18,7 @@ namespace LoanCal.Tests
     public class FunctionTest
     {
 
-        LoanRequest sRequest;
+        //LoanRequest sRequest;
         private const string ExamplesPath = @"Examples\";
 
         [Fact]
